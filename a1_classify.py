@@ -16,6 +16,7 @@ import csv
 def analyze(classId,classifier,X_train,X_test,y_train,y_test,labels):
     classifier.fit(X_train,y_train)
     prediction = classifier.predict(X_test)
+    correct = np.sum(y_test==prediction)/prediction.shape[0]
     confusion = confusion_matrix(y_test,prediction,labels=labels)
 
     acc = accuracy(confusion)
@@ -31,7 +32,6 @@ def analyze(classId,classifier,X_train,X_test,y_train,y_test,labels):
     for i in range(confusion.shape[0]):
         for j in range(confusion.shape[1]):
             toWrite.append(confusion[i,j])
-    print (len(toWrite))
 
     rows = [] 
     if os.path.isfile('a1_3.1.csv'):
@@ -44,6 +44,7 @@ def analyze(classId,classifier,X_train,X_test,y_train,y_test,labels):
         for row in rows:
             classifierWriter.writerow(row)
         classifierWriter.writerow(toWrite)
+    return correct
 
 def accuracy( C ):
     ''' Compute accuracy given Numpy array confusion matrix C. Returns a floating point value '''
@@ -97,7 +98,6 @@ def class31(filename):
     '''
     if os.path.isfile('a1_3.1.csv'):
         os.remove('a1_3.1.csv')
-
     features = np.load(filename)['arr_0']
     splitFeatures = train_test_split(features, test_size=0.2)
     train = splitFeatures[0]
@@ -107,23 +107,30 @@ def class31(filename):
     X_test = test[:,:173]
     y_train = train[:,173]
     y_test = test[:,173]
-    labels = np.array([1,2,3,4])
+    labels = np.array([0,1,2,3])
     iBest = 0
-
+    correct = []
     svcLinear = SVC(kernel='linear')
-    analyze(1,svcLinear,X_train,X_test,y_train,y_test,labels)
-
+    correct.append(analyze(1,svcLinear,X_train,X_test,y_train,y_test,labels))
+    print("Done svcLinear")
+    
     svcRBF = SVC(kernel='rbf',gamma=2)
-    analyze(2,svcRBF,X_train,X_test,y_train,y_test,labels)
+    correct.append(analyze(2,svcRBF,X_train,X_test,y_train,y_test,labels))
+    print("Done svcRBF")
 
     rfc = RandomForestClassifier(n_estimators=10,max_depth=5)
-    analyze(3,rfc,X_train,X_test,y_train,y_test,labels)
+    correct.append(analyze(3,rfc,X_train,X_test,y_train,y_test,labels))
+    print("Done rfc")
 
     mlp = MLPClassifier(alpha=0.05)
-    analyze(4,mlp,X_train,X_test,y_train,y_test,labels)
+    correct.append(analyze(4,mlp,X_train,X_test,y_train,y_test,labels))
+    print("Done mlp")
 
     ada = AdaBoostClassifier()
-    analyze(5,ada,X_train,X_test,y_train,y_test,labels)
+    correct.append(analyze(5,ada,X_train,X_test,y_train,y_test,labels))
+    print("Done ada")
+
+    iBest = correct.index(max(correct))
 
     return (X_train, X_test, y_train, y_test,iBest)
 
@@ -142,9 +149,13 @@ def class32(X_train, X_test, y_train, y_test,iBest):
        X_1k: numPy array, just 1K rows of X_train
        y_1k: numPy array, just 1K rows of y_train
    '''
-    print('TODO Section 3.2')
-
-    return (X_1k, y_1k)
+    amounts = [1,5,10,15,20]
+    print(X_train.shape)
+    for i in amounts:
+        print(i)
+    print("Hello", iBest)
+    return None
+    #return (X_1k, y_1k)
     
 def class33(X_train, X_test, y_train, y_test, i, X_1k, y_1k):
     ''' This function performs experiment 3.3
@@ -174,4 +185,5 @@ if __name__ == "__main__":
     parser.add_argument("-i", "--input", help="the input npz file from Task 2", required=True)
     args = parser.parse_args()
     # TODO : complete each classification experiment, in sequence.
-    class31(args.input)
+    params = class31(args.input)
+    class32(params[0],params[1],params[2],params[3],params[4])

@@ -178,5 +178,5 @@ if __name__ == "__main__":
     if (args.max > 200272):
         print("Error: If you want to read more than 200,272 comments per file, you have to read them all.")
         sys.exit(1)
-    args.max = 100
+    args.max = round(20010/4)
     main(args)

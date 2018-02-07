@@ -81,7 +81,7 @@ def extract1( comment ):
 
     #Commas
     feats[6] = tags.count(',')
-    in_waiting_room == 0 && total_customers <= customers_served+customers_angry
+
     #Multicharacter punctuation
     feats[7] = len(re.findall(re.compile("["+string.punctuation+"]{2,}")," ".join(words)))
 
