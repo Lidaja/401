@@ -33,8 +33,6 @@ def csvReadWriter(csvFilename, toWrite):
         csvWriter.writerow(toWrite)
 
 def analyze(classId,classifier,X_train,X_test,y_train,y_test,labels):
-    if classId != 5:
-        return 0
     classifier.fit(X_train,y_train)
     prediction = classifier.predict(X_test)
     confusion = confusion_matrix(y_test,prediction,labels=labels)
@@ -254,8 +252,8 @@ def class34( filename, i ):
         Ps.append(S.pvalue)
     csvReadWriter('a1_3.4.csv',Ps)
 
-
 if __name__ == "__main__":
+    """PLEASE NOTE RUNNING THIS PROGRAM WILL OVERWRITE ALL THE CSVS WITH NEW DATA, AND WITHOUT COMMENTS. IF OVERWRITTEN, REDOWNLOAD THE ORIGINAL CSV FILES, THEY HAVE MY COMMENTS"""
     parser = argparse.ArgumentParser(description='Classify each .')
     parser.add_argument("-i", "--input", help="the input npz file from Task 2", required=True)
     args = parser.parse_args()

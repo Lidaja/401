@@ -135,7 +135,6 @@ def preproc1( comment , steps=range(1,11)):
     return modComm
 
 def main( args ):
-    pp = pprint.PrettyPrinter(indent=4)
     allOutput = []
     for subdir, dirs, files in os.walk(indir):
         for file in files:

@@ -1,7 +1,0 @@
-0.3875,0.275,0.3625,0.2375,0.3875
-0.35,0.2875,0.4375,0.3375,0.475
-0.3,0.25,0.45,0.275,0.3375
-0.3375,0.325,0.3875,0.35,0.4
-0.325,0.2375,0.3625,0.375,0.4375
-0.0439829161065,0.00681146118245,0.82497577652,0.0119147544557
-We notice in this case, where the best classifier is the 5th one, AdaBoostClassifier, how it has a very small pvalue when relative to the RBF SVM. This likely means their average results don't differ too much
