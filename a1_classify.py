@@ -266,6 +266,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
     # TODO : complete each classification experiment, in sequence.
     params31 = class31(args.input)
-    params32 = class32(params31[0],params31[1],params31[2],params31[3],params31[4])
-    class33(params31[0],params31[1],params31[2],params31[3],params31[4],params32[0],params32[1])
-    class34(args.input,params31[4])
+    #params32 = class32(params31[0],params31[1],params31[2],params31[3],params31[4])
+    #class33(params31[0],params31[1],params31[2],params31[3],params31[4],params32[0],params32[1])
+    #class34(args.input,params31[4])

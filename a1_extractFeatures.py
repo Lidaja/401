@@ -77,7 +77,7 @@ def extract1( comment ):
     feats[4] = tags.count('VBN') + tags.count('VBD')
 
     #Future verbs
-    feats[5] = tags.count('BES') + tags.count('MD')
+    feats[5] = tags.count('BES') + tags.count('MD') + tags.count('VB')
 
     #Commas
     feats[6] = tags.count(',')
@@ -107,7 +107,7 @@ def extract1( comment ):
         wordSplit = sentence.split(" ")
         feats[14] += len(wordSplit)
     feats[14] = feats[14]*1.0/len(sentenceSplit)
-    
+
     numTokens = 0
     lenTokens = 0
     for word in words:
@@ -184,13 +184,12 @@ def main( args ):
         feats[i][29:173] = LIWC
     np.savez_compressed( args.output, feats)
 
-    
-if __name__ == "__main__": 
+
+if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Process each .')
     parser.add_argument("-o", "--output", help="Directs the output to a filename of your choice", required=True)
     parser.add_argument("-i", "--input", help="The input JSON file, preprocessed as in Task 1", required=True)
     args = parser.parse_args()
-                 
-    main(args)
 
+    main(args)
