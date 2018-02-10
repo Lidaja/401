@@ -1,0 +1,2 @@
+0.352625,0.407875,0.41775,0.41825,0.431625
+It seems to get more accurate the larger the dataset is, but plateau towards the end. This is likely due to small datasets being underfitted/undertrained and the classifier making wild predictions. And the more data it gets, the more it's essentially practiced to handle this data. Though I imagine if we were to pass in an extraordinary amount of data, it would get overfitted to the data.

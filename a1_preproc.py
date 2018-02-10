@@ -2,7 +2,6 @@ import sys
 import argparse
 import os
 import json
-import pprint
 import re
 import string
 import spacy
@@ -23,7 +22,7 @@ def replace_html(comment):
 def remove_urls(comment):
     return remove_extra_space(re.sub(r'http[^\s]*|www[^\s]*','',comment))
 
-def split_punctuation(comment):    
+def split_punctuation(comment):
     puncList = list(string.punctuation)
     puncList.remove("'")
     puncList.remove(".")
@@ -90,12 +89,12 @@ def make_lowercase(comment):
 def preproc1( comment , steps=range(1,11)):
     ''' This function pre-processes a single comment
 
-    Parameters:                                                                      
+    Parameters:
         comment : string, the body of a comment
-        steps   : list of ints, each entry in this list corresponds to a preprocessing step  
+        steps   : list of ints, each entry in this list corresponds to a preprocessing step
 
     Returns:
-        modComm : string, the modified comment 
+        modComm : string, the modified comment
     '''
 
     #print("before=",comment)
@@ -120,7 +119,7 @@ def preproc1( comment , steps=range(1,11)):
         comment = spacy_tag(comment)
         #print("Step6:",comment)
     if 7 in steps:
-        comment = remove_stopwords(comment)                
+        comment = remove_stopwords(comment)
         #print("Step7:",comment)
     if 8 in steps:
         comment = lemmatize(comment)
@@ -148,20 +147,19 @@ def main( args ):
             # TODO: select appropriate args.max lines
             cutData = data[:args.max]
             for line in cutData:
-                
+
                 # TODO: read those lines with something like `j = json.loads(line)`
                 j = json.loads(line)
                 # TODO: choose to retain fields from those lines that are relevant to you
                 for key in list(j.keys()):
                     if key not in ['ups','downs','score','controversiality','subreddit','author','body','id']:
                         j.pop(key,None)
-                # TODO: add a field to each selected line called 'cat' with the value of 'file' (e.g., 'Alt', 'Right', ...) 
+                # TODO: add a field to each selected line called 'cat' with the value of 'file' (e.g., 'Alt', 'Right', ...)
                 j[u'cat'] = fullFile.split('/')[-1]
                 # TODO: process the body field (j['body']) with preproc1(...) using default for `steps` argument
                 procResult = preproc1(j['body'])
                 # TODO: replace the 'body' field with the processed text
                 j['body'] = procResult
-                # TODO: append the result to 'allOutput'
                 allOutput.append(j)
     fout = open(args.output, 'w')
     fout.write(json.dumps(allOutput))
@@ -178,5 +176,4 @@ if __name__ == "__main__":
     if (args.max > 200272):
         print("Error: If you want to read more than 200,272 comments per file, you have to read them all.")
         sys.exit(1)
-    args.max = round(20010/4)
     main(args)
